@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QPoint>
 
 class QLabel;
 
@@ -19,12 +20,20 @@ public:
 private:
     QString mFilename;
     QLabel *imageLabel;
+    QPoint rememberedPointForPanning;
 
 protected:
     virtual void resizeEvent(QResizeEvent *);
     virtual void mousePressEvent(QMouseEvent *);
+    virtual void mouseMoveEvent(QMouseEvent *);
+#ifndef QT_NO_WHEELEVENT
+    virtual void wheelEvent(QWheelEvent *);
+#endif
 
-    void printCoordinates(int x, int y);
+    void printCoordinates(QPoint coords);
+
+    QPoint coordWindowToPicture(QPoint in);
+    QPoint coordPictureToWindow(QPoint in);
 };
 
 #endif // WIDGET_H
