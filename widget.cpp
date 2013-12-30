@@ -26,20 +26,27 @@ Widget::~Widget()
 }
 
 
-void Widget::showPicture() {
+bool Widget::showPicture() {
     imageLabel = new QLabel(this);
     imageLabel->setBackgroundRole(QPalette::Base);
     imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     imageLabel->setScaledContents(true);
 
-    setWindowTitle(tr("Image Viewer"));
+    setWindowTitle(mFilename);
     //resize(500, 400);
 
     QImage image(mFilename);
+
+    if(image.isNull()) {
+        fprintf(stderr, "Can't load %s\n", mFilename.toLocal8Bit().data());
+        return false;
+    }
+
     imageLabel->setPixmap(QPixmap::fromImage(image));
     resize(imageLabel->pixmap()->size());
     imageLabel->resize(this->width(), this->height());
     imageLabel->move(0,0);
+    return true;
 }
 
 void Widget::resizeEvent(QResizeEvent *e) {
@@ -116,7 +123,7 @@ void Widget::wheelEvent(QWheelEvent * e) {
 
     double q = exp(0.001*d);
 
-    fprintf(stderr, "D: %d %g\n", d, q);
+    //fprintf(stderr, "D: %d %g\n", d, q);
 
     QPoint pictCoords = this->coordWindowToPicture( e->pos());
 

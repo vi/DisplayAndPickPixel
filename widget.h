@@ -15,7 +15,7 @@ public:
     ~Widget();
 
     void setFilename(QString filename) { mFilename = filename; }
-    void showPicture();
+    bool showPicture();
 
 private:
     QString mFilename;
