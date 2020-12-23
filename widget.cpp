@@ -77,8 +77,8 @@ void Widget::mousePressEvent(QMouseEvent *e) {
 }
 
 void Widget::mouseMoveEvent(QMouseEvent *e) {
-    int buttonSet = e->buttons().operator int();
-    int modifierSet = e->modifiers().operator int();
+    Qt::MouseButtons buttonSet = e->buttons();
+    Qt::KeyboardModifiers modifierSet = e->modifiers();
 
     if(buttonSet == Qt::MiddleButton ||
             (modifierSet == Qt::ControlModifier && buttonSet == Qt::LeftButton)) {
